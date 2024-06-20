@@ -23,8 +23,9 @@ ESP8266WebServer server(80);
 
 void flashLED() {
   digitalWrite(LED_BUILTIN, LOW);   // turn the LED on (LOW is the voltage level)
-  delay(1000);                      // wait for a second
+  delay(500);                       // wait for a second
   digitalWrite(LED_BUILTIN, HIGH);  // turn the LED off by making the voltage HIGH
+  delay(500);                       // wait for a second
 }
 
 void handleRoot() {
@@ -49,13 +50,11 @@ void handleNotFound() {
 }
 
 void handleNumericArgs() {
+  String message = "LED flashes ";
+  message += server.arg("flash");
+  message += " times";
 
-  // server.send(200, "text/plain", server.arg("flash"));
-  int x;
-
-  // char tmp[10] = server.arg("flash");
-  // sscanf(tmp, "%d", &x);
-  // int no_of_flashes = strtol(server.arg("flash"));
+  server.send(200, "text/plain", message);
 
   for (int i = 0; i < server.arg("flash").toInt(); i++) {
     flashLED();
